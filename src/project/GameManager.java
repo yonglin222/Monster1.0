@@ -40,7 +40,6 @@ class FireMonster extends Monster {
         // 그 다음 35% 확률로 스킬이 발동됩니다
         int damage = Math.max(getAttack() -
                 target.getDefense(), 0);
-
         if (Math.random() < 0.35) {
             System.out.println("화염공격 !!");
             damage = damage + fireSkillDamage;
@@ -77,22 +76,21 @@ public class GameManager {
         // (도전 과제) 플레이어가 몬스터 목록에서 두 마리를 선택하여
         // 싸움을 붙이는 로직을 구현해 보세요.
         Scanner scanner = new Scanner(System.in);
-        System.out.println("0~9번중 첫번째 몬스터를 고르시오: ");
+        System.out.println("0~12번중 첫번째 몬스터를 고르시오: ");
         int first = scanner.nextInt();
 
-        System.out.println("0~9번중 두번째 몬스터를 고르시오: ");
+        System.out.println("0~12번중 두번째 몬스터를 고르시오: ");
         int second = scanner.nextInt();
 
         // first, second 가 0~9사이로 선택할수 있도록 만들기
-        if (first < 0 || second < 0 || first > 9 || second > 9)
+        if (first < 0 || second < 0 || first > 12 || second > 12)
             System.out.println("잘못된 선택입니다.");
 
         Monster monster1 = monsterList.get(first);
         Monster monster2 = monsterList.get(second);
 
         while(monster1.getHp() > 0 && monster2.getHp() > 0) {
-            int damage = monster1.getAttack() - monster2.getDefense();
-            if (damage <= 0) damage = 0;
+            monster1.attack(monster2);
 
 
             int newHp = monster2.getHp() - damage;
