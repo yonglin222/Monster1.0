@@ -1,11 +1,14 @@
 package project;
 
-public class Monster {
+public abstract class Monster {
     private String name;
     private int hp;
     private int maxHp;
     private int attack;
     private int defense;
+
+    public Monster() {
+    }
 
     public Monster(String name, int hp, int attack, int defense) {
         this.name = name;
@@ -60,8 +63,11 @@ public class Monster {
         return defense;
     }
 
+//    public abstract void info();
     public void info(){
         System.out.println("이름:" + name + " 체력:" + hp + "/" + maxHp + " 공격력:" + attack + " 방어력: " + defense);
     }
+    public abstract int attack(Monster target);
+
 
 }
