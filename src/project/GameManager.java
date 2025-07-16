@@ -10,23 +10,21 @@ class NormalMonster extends Monster {
     public int attack(Monster target) {
         // ## 로직 설명
         // 20%의 확률로 치명타가 발동하는지 확인합니다.
-        int damage = attack();
+        int damage;
         if (Math.random() < 0.2) {
             // 조건식이 true일 때 20% 확률로 실행될 코드
             // 치명타가 터지면, 공격력 * 2를 하여 피해량을 두 배로 만들고
             // 상대의 방어도를 무시합니다. 특별한 메시지를 출력합니다.
-            damage = 2 * getAttack();
-            if (damage <= 0) damage = 0;
+            damage = Math.max(0, 2 * getAttack());
             System.out.println("치명타공격!");
-            return damage;
         }else {
-            damage = getAttack() - getDefense();
-            if (damage <= 0) damage = 0;
+            damage = Math.max(0, getAttack() - getDefense());
             System.out.println("기본공격");
-            return damage;
-
             // 치명타가 터지지 않으면, 기본계산 피해량(공격력 - 상대방어력)만 반환됩니다.
+//            damage = 2 * getAttack();
+//            if (damage <= 0) damage = 0;
         }
+        return damage;
     }
 }
 class FireMonster extends Monster {
@@ -38,15 +36,18 @@ class FireMonster extends Monster {
 
     @Override
     public int attack(Monster target) {
-        // 이제 attack 메서드는 먼저 기본 공격을 항상 수행하고 피해량을 계산합니다.
+        // 이제 FireMonster의 attack 메서드는 먼저 기본 공격을 항상 수행하고 피해량을 계산합니다.
         // 그 다음 35% 확률로 스킬이 발동됩니다
+        int damage = Math.max(getAttack() -
+                target.getDefense(), 0);
         if (Math.random() < 0.35) {
+            System.out.println("화염공격 !!");
+            damage = damage + fireSkillDamage;
             // 스킬이 발동되면 기존에 계산된 damage에 스킬 피해량을 누적하여 더해줍니다.
-
             // 따라서 스킬은 이제 공격을 대체하는 것이 아닌, 강력한 '추가타' 개념이 됩니다.
             // 최종 계산된 피해량을 반환합니다.
         }
-        return 0;
+        return damage;
 
     }
 }
