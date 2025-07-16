@@ -40,6 +40,7 @@ class FireMonster extends Monster {
         // 그 다음 35% 확률로 스킬이 발동됩니다
         int damage = Math.max(getAttack() -
                 target.getDefense(), 0);
+
         if (Math.random() < 0.35) {
             System.out.println("화염공격 !!");
             damage = damage + fireSkillDamage;
