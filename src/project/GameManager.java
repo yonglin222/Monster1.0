@@ -16,10 +16,10 @@ class NormalMonster extends Monster {
             // 치명타가 터지면, 공격력 * 2를 하여 피해량을 두 배로 만들고
             // 상대의 방어도를 무시합니다. 특별한 메시지를 출력합니다.
             damage = Math.max(0, 2 * getAttack());
-            System.out.println("치명타공격!");
+            System.out.println(getName() + "의 치명타공격! 데미지 " + damage);
         }else {
             damage = Math.max(0, getAttack() - getDefense());
-            System.out.println("기본공격");
+            System.out.println(getName() + "의 일반공격 데미지 " + damage);
             // 치명타가 터지지 않으면, 기본계산 피해량(공격력 - 상대방어력)만 반환됩니다.
 //            damage = 2 * getAttack();
 //            if (damage <= 0) damage = 0;
@@ -40,8 +40,9 @@ class FireMonster extends Monster {
         // 그 다음 35% 확률로 스킬이 발동됩니다
         int damage = Math.max(getAttack() -
                 target.getDefense(), 0);
+        System.out.println(getName() + "의 일반공격 데미지 " + damage );
         if (Math.random() < 0.35) {
-            System.out.println("화염공격 !!");
+            System.out.println("스킬 발동!!! 화염공격 " + "데미지 " +fireSkillDamage );
             damage = damage + fireSkillDamage;
             // 스킬이 발동되면 기존에 계산된 damage에 스킬 피해량을 누적하여 더해줍니다.
             // 따라서 스킬은 이제 공격을 대체하는 것이 아닌, 강력한 '추가타' 개념이 됩니다.
@@ -56,19 +57,32 @@ public class GameManager {
     public static void main(String[] args) {
         // Monster 객체들을 저장할 ArrayList를 생성
         ArrayList<Monster> monsterList = new ArrayList<>();
-        monsterList.add(new NormalMonster("슬라임", 30, 8, 5));
-        monsterList.add(new NormalMonster("고블린", 50, 12, 4));
-        monsterList.add(new NormalMonster("오크", 80, 15, 7));
-        monsterList.add(new NormalMonster("스켈레톤", 60, 14, 10));
-        monsterList.add(new NormalMonster("트롤", 120, 18, 6));
-        monsterList.add(new NormalMonster("골렘", 100, 20, 25));
-        monsterList.add(new NormalMonster("와이번", 150, 25, 15));
-        monsterList.add(new NormalMonster("리치", 130, 35, 12));
-        monsterList.add(new NormalMonster("키메라", 200, 30, 20));
-        monsterList.add(new NormalMonster("드래곤", 300, 40, 30));
-        monsterList.add(new FireMonster("이프리트", 140, 22, 18, 35));
-        monsterList.add(new FireMonster("헬하운드", 90, 28, 10, 25));
-        monsterList.add(new FireMonster("파이어 골렘", 180, 25, 22, 20));
+        // 0번 슬라임
+        monsterList.add(new Troll("슬라임", 30, 8, 5));
+        // 1번 고블린
+        monsterList.add(new Troll("고블린", 50, 12, 4));
+        // 2번 오크
+        monsterList.add(new Troll("오크", 80, 15, 7));
+        // 3번 스켈레톤
+        monsterList.add(new Troll("스켈레톤", 60, 14, 10));
+        // 4번 트롤
+        monsterList.add(new Troll("트롤", 120, 18, 6));
+        // 5번 골렘
+        monsterList.add(new Troll("골렘", 100, 20, 25));
+        // 6번 와이번
+        monsterList.add(new Troll("와이번", 150, 25, 15));
+        // 7번 리치
+        monsterList.add(new Troll("리치", 130, 35, 12));
+        // 8번 키메라
+        monsterList.add(new Troll("키메라", 200, 30, 20));
+        // 9번 드래곤
+        monsterList.add(new Troll("드래곤", 300, 40, 30));
+        // 10번 이프리트
+        monsterList.add(new Hellhound("이프리트", 140, 22, 18, 35));
+        // 11번 헬하운드
+        monsterList.add(new Hellhound("헬하운드", 90, 28, 10, 25));
+        // 12번 파이어골렘
+        monsterList.add(new Hellhound("파이어 골렘", 180, 25, 22, 20));
 
         for (Monster m : monsterList) {
             m.info();
@@ -90,16 +104,24 @@ public class GameManager {
         Monster monster2 = monsterList.get(second);
 
         while(monster1.getHp() > 0 && monster2.getHp() > 0) {
-            monster1.attack(monster2);
-
-
-            int newHp = monster2.getHp() - damage;
+            int newHp = monster2.getHp() - monster1.attack(monster2);
             monster2.setHp(newHp > 0 ? newHp : 0);
+            // ✨ 추가된 회복 스킬 발동 로직 ✨
+            // 공격 턴을 마친 attacker가 Healable 타입인지 확인
+            if (monster1 instanceof Healable) {
+                // 25% 확률로 회복 스킬 사용
+            }
 
-            System.out.println(monster1.getName() + "의 기본공격! " + monster2.getName() + "는 데미지" + damage + "를 입었다 ");
+
+
+//            System.out.println(monster1.getName() + "의 공격! " +
+//                    monster2.getName() + "는 데미지" + monster1.attack(monster2) + "를 입었다 ");
             System.out.println(monster2.getName() + " 남은체력 : " + monster2.getHp());
             System.out.println();
-            if (monster2.getHp() <= 0) break;
+            if (monster2.getHp() <= 0) {
+                System.out.println(monster1.getName() +" 전투 승리!");
+                break;
+            }
             try {
                 // 1000 밀리초 = 1초 동안 실행을 멈춥니다.
                 Thread.sleep(1000);
@@ -109,16 +131,16 @@ public class GameManager {
                 e.printStackTrace();
             }
 
-            damage = monster2.getAttack() - monster1.getDefense();
-            if (damage <= 0) damage = 0;
-
-            newHp = monster1.getHp() - damage;
+            newHp = monster1.getHp() - monster2.attack(monster1);
             monster1.setHp(newHp > 0 ? newHp : 0);
 
-            System.out.println(monster2.getName() + "의 기본공격! " + monster1.getName() + "는 데미지" + damage + "를 입었다 ");
+//            System.out.println(monster2.getName() + "nster2.attack(monster1) + "를 입었다 ");
             System.out.println(monster1.getName() + " 남은체력 : " + monster1.getHp());
             System.out.println();
-            if (monster1.getHp() <= 0) break;
+            if (monster1.getHp() <= 0) {
+                System.out.println(monster2.getName() +" 전투 승리!");
+                break;
+            }
 
             try {
                 // 1000 밀리초 = 1초 동안 실행을 멈춥니다.
