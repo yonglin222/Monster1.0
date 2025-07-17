@@ -106,14 +106,17 @@ public class GameManager {
         while(monster1.getHp() > 0 && monster2.getHp() > 0) {
             int newHp = monster2.getHp() - monster1.attack(monster2);
             monster2.setHp(newHp > 0 ? newHp : 0);
+
             // ✨ 추가된 회복 스킬 발동 로직 ✨
             // 공격 턴을 마친 attacker가 Healable 타입인지 확인
             if (monster1 instanceof Healable) {
                 // 25% 확률로 회복 스킬 사용
+                if (Math.random() < 0.35) {
+                    ((Healable) monster1).heal(); // ???이게 좀 이해안되요
+                    System.out.println(monster1.getName() + "의 체력회복 총 hp" + newHp);
+                }
+
             }
-
-
-
 //            System.out.println(monster1.getName() + "의 공격! " +
 //                    monster2.getName() + "는 데미지" + monster1.attack(monster2) + "를 입었다 ");
             System.out.println(monster2.getName() + " 남은체력 : " + monster2.getHp());
@@ -133,7 +136,15 @@ public class GameManager {
 
             newHp = monster1.getHp() - monster2.attack(monster1);
             monster1.setHp(newHp > 0 ? newHp : 0);
-
+            // ✨ 추가된 회복 스킬 발동 로직 ✨
+            // 공격 턴을 마친 attacker가 Healable 타입인지 확인
+            if (monster2 instanceof Healable) {
+                // 25% 확률로 회복 스킬 사용
+                if (Math.random() < 0.35) {
+                    ((Healable) monster1).heal(); // ???이게 좀 이해안되요
+                    System.out.println(monster2.getName() + "의 체력회복 총 hp" );
+                }
+            }
 //            System.out.println(monster2.getName() + "nster2.attack(monster1) + "를 입었다 ");
             System.out.println(monster1.getName() + " 남은체력 : " + monster1.getHp());
             System.out.println();

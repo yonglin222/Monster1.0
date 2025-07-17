@@ -11,5 +11,6 @@ public class Troll extends NormalMonster implements Healable {
     @Override
     public void heal() {
         // 최대 체력의 10%를 회복함
+        int heal = (getHp() / 10);
     }
 }

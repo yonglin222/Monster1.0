@@ -11,5 +11,7 @@ public class Hellhound extends FireMonster implements Healable {
     @Override
     public void heal() {
         // 최대 체력의 20%를 회복함
+        int healAmount = (int) (getHp() * 0.1);
+
     }
 }
