@@ -103,55 +103,35 @@ public class GameManager {
         Monster monster1 = monsterList.get(first);
         Monster monster2 = monsterList.get(second);
 
+        System.out.println("--- 전투 시작 ---");
+        int turn = 1;
+
         while(monster1.getHp() > 0 && monster2.getHp() > 0) {
-            int newHp = monster2.getHp() - monster1.attack(monster2);
-            monster2.setHp(newHp > 0 ? newHp : 0);
-
-            // ✨ 추가된 회복 스킬 발동 로직 ✨
-            // 공격 턴을 마친 attacker가 Healable 타입인지 확인
-            if (monster1 instanceof Healable) {
-                // 25% 확률로 회복 스킬 사용
-                if (Math.random() < 0.35) {
-                    ((Healable) monster1).heal(); // ???이게 좀 이해안되요
-                    System.out.println(monster1.getName() + "의 체력회복 총 hp" + newHp);
-                }
-
-            }
+            System.out.println("--- " + turn + " 턴 ---");
+            // attacker == monster1
+            Monster attacker = (turn % 2 == 0) ? monster2 : monster1;
+            // attacker == monster2
+            Monster defender = (turn % 2 == 0) ? monster1 : monster2;
+            int newHp = defender.getHp() - monster1.attack(defender);
+            defender.setHp(newHp > 0 ? newHp : 0);
 //            System.out.println(monster1.getName() + "의 공격! " +
 //                    monster2.getName() + "는 데미지" + monster1.attack(monster2) + "를 입었다 ");
-            System.out.println(monster2.getName() + " 남은체력 : " + monster2.getHp());
-            System.out.println();
-            if (monster2.getHp() <= 0) {
-                System.out.println(monster1.getName() +" 전투 승리!");
-                break;
-            }
-            try {
-                // 1000 밀리초 = 1초 동안 실행을 멈춥니다.
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                // sleep 도중 방해를 받았을 때 처리할 코드를 여기에 작성할 수 있습니다.
-                // 지금은 비워두어도 괜찮습니다.
-                e.printStackTrace();
-            }
-
-            newHp = monster1.getHp() - monster2.attack(monster1);
-            monster1.setHp(newHp > 0 ? newHp : 0);
             // ✨ 추가된 회복 스킬 발동 로직 ✨
             // 공격 턴을 마친 attacker가 Healable 타입인지 확인
-            if (monster2 instanceof Healable) {
+            if (attacker instanceof Healable) {
                 // 25% 확률로 회복 스킬 사용
                 if (Math.random() < 0.35) {
-                    ((Healable) monster1).heal(); // ???이게 좀 이해안되요
-                    System.out.println(monster2.getName() + "의 체력회복 총 hp" );
+                    ((Healable) attacker).heal(); // ???이게 좀 이해안되요
+//                    System.out.println(monster2.getName() + "의 체력회복 총 hp" );
                 }
             }
-//            System.out.println(monster2.getName() + "nster2.attack(monster1) + "를 입었다 ");
-            System.out.println(monster1.getName() + " 남은체력 : " + monster1.getHp());
+            System.out.println(defender.getName() + " 남은체력 : " + defender.getHp());
             System.out.println();
-            if (monster1.getHp() <= 0) {
-                System.out.println(monster2.getName() +" 전투 승리!");
+            if (defender.getHp() <= 0) {
+                System.out.println(attacker.getName() +" 전투 승리!");
                 break;
             }
+            turn++; // 여기서 turn 변수가 1 증가합니다!
 
             try {
                 // 1000 밀리초 = 1초 동안 실행을 멈춥니다.
@@ -161,6 +141,18 @@ public class GameManager {
                 // 지금은 비워두어도 괜찮습니다.
                 e.printStackTrace();
             }
+
+//            newHp = monster1.getHp() - monster2.attack(monster1);
+//            monster1.setHp(newHp > 0 ? newHp : 0);
+//            System.out.println(monster2.getName() + "nster2.attack(monster1) + "를 입었다 ");
+//            System.out.println(monster1.getName() + " 남은체력 : " + monster1.getHp());
+//            System.out.println();
+//            if (monster1.getHp() <= 0) {
+//                System.out.println(monster2.getName() +" 전투 승리!");
+//                break;
+//
+//            }
+//            turn++; // 여기서 turn 변수가 1 증가합니다!
         }
     }
 }
