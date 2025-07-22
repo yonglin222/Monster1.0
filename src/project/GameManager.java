@@ -18,8 +18,10 @@ class NormalMonster extends Monster {
             damage = Math.max(0, 2 * getAttack());
             System.out.println(getName() + "의 치명타공격! 데미지 " + damage);
         }else {
-            damage = Math.max(0, getAttack() - getDefense());
-            System.out.println(getName() + "의 일반공격 데미지 " + damage);
+            damage = Math.max(0, getAttack() - target.getDefense());
+            System.out.println(getName() + "의 일반공격 데미지 " + damage +
+                    " (공격력: " + getAttack() + ", 상대 방어력: " + target.getDefense() + ")");
+
             // 치명타가 터지지 않으면, 기본계산 피해량(공격력 - 상대방어력)만 반환됩니다.
 //            damage = 2 * getAttack();
 //            if (damage <= 0) damage = 0;
@@ -40,7 +42,8 @@ class FireMonster extends Monster {
         // 그 다음 35% 확률로 스킬이 발동됩니다
         int damage = Math.max(getAttack() -
                 target.getDefense(), 0);
-        System.out.println(getName() + "의 일반공격 데미지 " + damage );
+        System.out.println(getName() + "의 일반공격 데미지 " + damage +
+                " (공격력: " + getAttack() + ", 상대 방어력: " + target.getDefense() + ")");
         if (Math.random() < 0.35) {
             System.out.println("스킬 발동!!! 화염공격 " + "데미지 " +fireSkillDamage );
             damage = damage + fireSkillDamage;
@@ -49,10 +52,8 @@ class FireMonster extends Monster {
             // 최종 계산된 피해량을 반환합니다.
         }
         return damage;
-
     }
 }
-
 public class GameManager {
     public static void main(String[] args) {
         // Monster 객체들을 저장할 ArrayList를 생성
@@ -108,24 +109,22 @@ public class GameManager {
 
         while(monster1.getHp() > 0 && monster2.getHp() > 0) {
             System.out.println("--- " + turn + " 턴 ---");
-            // attacker == monster1
             Monster attacker = (turn % 2 == 0) ? monster2 : monster1;
-            // attacker == monster2
             Monster defender = (turn % 2 == 0) ? monster1 : monster2;
-            int newHp = defender.getHp() - monster1.attack(defender);
-            defender.setHp(newHp > 0 ? newHp : 0);
-//            System.out.println(monster1.getName() + "의 공격! " +
-//                    monster2.getName() + "는 데미지" + monster1.attack(monster2) + "를 입었다 ");
+            int newHp = defender.getHp() - attacker.attack(defender);
+            defender.setHp(Math.max(newHp, 0));
+
+            System.out.println(defender.getName() + " 남은체력 : " + defender.getHp());
             // ✨ 추가된 회복 스킬 발동 로직 ✨
             // 공격 턴을 마친 attacker가 Healable 타입인지 확인
             if (attacker instanceof Healable) {
                 // 25% 확률로 회복 스킬 사용
                 if (Math.random() < 0.35) {
                     ((Healable) attacker).heal(); // ???이게 좀 이해안되요
+                    System.out.println(attacker.getName() + "체력 : " + attacker.getHp());
 //                    System.out.println(monster2.getName() + "의 체력회복 총 hp" );
                 }
             }
-            System.out.println(defender.getName() + " 남은체력 : " + defender.getHp());
             System.out.println();
             if (defender.getHp() <= 0) {
                 System.out.println(attacker.getName() +" 전투 승리!");
