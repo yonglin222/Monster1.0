@@ -68,6 +68,4 @@ public abstract class Monster {
         System.out.println("이름:" + name + " 체력:" + hp + "/" + maxHp + " 공격력:" + attack + " 방어력: " + defense);
     }
     public abstract int attack(Monster target);
-
-
 }

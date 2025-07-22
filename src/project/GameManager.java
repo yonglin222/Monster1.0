@@ -37,6 +37,7 @@ public class GameManager {
         for (Monster m : monsterList) {
             m.info();
         }
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("0~12번중 첫번째 몬스터를 고르시오: ");
         int first = scanner.nextInt();
