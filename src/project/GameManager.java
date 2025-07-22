@@ -8,31 +8,31 @@ public class GameManager {
         // Monster 객체들을 저장할 ArrayList를 생성
         ArrayList<Monster> monsterList = new ArrayList<>();
         // 0번 슬라임
-        monsterList.add(new Troll("슬라임", 30, 8, 5));
+        monsterList.add(new NormalMonster("슬라임", 30, 8, 5));
         // 1번 고블린
-        monsterList.add(new Troll("고블린", 50, 12, 4));
+        monsterList.add(new NormalMonster("고블린", 50, 12, 4));
         // 2번 오크
-        monsterList.add(new Troll("오크", 80, 15, 7));
+        monsterList.add(new NormalMonster("오크", 80, 15, 7));
         // 3번 스켈레톤
-        monsterList.add(new Troll("스켈레톤", 60, 14, 10));
+        monsterList.add(new NormalMonster("스켈레톤", 60, 14, 10));
         // 4번 트롤
         monsterList.add(new Troll("트롤", 120, 18, 6));
         // 5번 골렘
-        monsterList.add(new Troll("골렘", 100, 20, 25));
+        monsterList.add(new NormalMonster("골렘", 100, 20, 25));
         // 6번 와이번
-        monsterList.add(new Troll("와이번", 150, 25, 15));
+        monsterList.add(new NormalMonster("와이번", 150, 25, 15));
         // 7번 리치
-        monsterList.add(new Troll("리치", 130, 35, 12));
+        monsterList.add(new NormalMonster("리치", 130, 35, 12));
         // 8번 키메라
-        monsterList.add(new Troll("키메라", 200, 30, 20));
+        monsterList.add(new NormalMonster("키메라", 200, 30, 20));
         // 9번 드래곤
-        monsterList.add(new Troll("드래곤", 300, 40, 30));
+        monsterList.add(new NormalMonster("드래곤", 300, 40, 30));
         // 10번 이프리트
-        monsterList.add(new Hellhound("이프리트", 140, 22, 18, 35));
+        monsterList.add(new FireMonster("이프리트", 140, 22, 18, 35));
         // 11번 헬하운드
         monsterList.add(new Hellhound("헬하운드", 90, 28, 10, 25));
         // 12번 파이어골렘
-        monsterList.add(new Hellhound("파이어 골렘", 180, 25, 22, 20));
+        monsterList.add(new FireMonster("파이어 골렘", 180, 25, 22, 20));
 
         for (Monster m : monsterList) {
             m.info();
