@@ -2,42 +2,7 @@ package project;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-class NormalMonster extends Monster {
-    public NormalMonster(String name, int hp, int attack, int defense) {
-        super(name, hp, attack, defense);
-    }
-    @Override
-    public int attack(Monster target) {
-        int damage;
-        if (Math.random() < 0.2) {
-            damage = Math.max(0, 2 * getAttack());
-            System.out.println(getName() + "의 치명타공격! 확정피해 " + damage);
-        }else {
-            damage = Math.max(0, getAttack() - target.getDefense());
-            System.out.println(getName() + "의 일반공격 피해 " + damage +
-                " (공격력: " + getAttack() + ", 상대 방어력: " + target.getDefense() + ")");
-        }
-        return damage;
-    }
-}
-class FireMonster extends Monster {
-    private final int fireSkillDamage;
-    public FireMonster(String name, int hp, int attack, int defense, int fireSkillDamage) {
-        super(name, hp, attack, defense);
-        this.fireSkillDamage = fireSkillDamage;
-    }
-    @Override
-    public int attack(Monster target) {
-        int damage = Math.max(getAttack() - target.getDefense(), 0);
-        System.out.println(getName() + "의 일반공격 피해 " + damage +
-                " (공격력: " + getAttack() + ", 상대 방어력: " + target.getDefense() + ")");
-        if (Math.random() < 0.35) {
-            System.out.println("스킬 발동!!! 화염공격 피해 " +fireSkillDamage );
-            damage = damage + fireSkillDamage;
-        }
-        return damage;
-    }
-}
+
 public class GameManager {
     public static void main(String[] args) {
         // Monster 객체들을 저장할 ArrayList를 생성
