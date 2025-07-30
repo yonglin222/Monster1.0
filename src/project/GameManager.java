@@ -54,7 +54,7 @@ public class GameManager {
         System.out.println("--- 전투 시작 ---");
         int turn = 1;
 
-        while(monster1.getHp() > 0 && monster2.getHp() > 0) {
+        while (monster1.getHp() > 0 && monster2.getHp() > 0) {
             System.out.println("--- " + turn + " 턴 ---");
             Monster attacker = (turn % 2 == 0) ? monster2 : monster1;
             Monster defender = (turn % 2 == 0) ? monster1 : monster2;
@@ -72,7 +72,7 @@ public class GameManager {
             }
             System.out.println();
             if (defender.getHp() <= 0) {
-                System.out.println(attacker.getName() +" 전투 승리!");
+                System.out.println(attacker.getName() + " 전투 승리!");
                 break;
             }
             turn++;
