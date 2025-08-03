@@ -10,32 +10,31 @@ package project;
  */
 
  class Player extends Monster {
-     private int skillAttack;
      private int mp;
 
-     public Player(String name, int hp, int attack, int defense, int mp, int skillAttack) {
+     public Player(String name, int hp, double attack, int defense, int mp) {
          super(name, hp, attack, defense);
          this.mp = mp;
-         this.skillAttack = skillAttack;
      }
 
      @Override
      public int attack(Monster target) {
-         int damage;
-         if (Math.random() < 0.15) {
+         double damage;
+         if (mp >= 20) {
+             System.out.println("파워 어택 스킬 발동!");
+             damage = Math.max(0, 1.5*getAttack() - 0.5*getDefense() );
+             System.out.println(getName() + "의 치명타공격! 확정피해 " + damage);
+         } else  if (Math.random() < 0.2) {
+             System.out.println("마나가 부족합니다!");
              damage = Math.max(0, 2 * getAttack());
              System.out.println(getName() + "의 치명타공격! 확정피해 " + damage);
          } else {
+             System.out.println("마나가 부족합니다!");
              damage = Math.max(0, getAttack() - target.getDefense());
              System.out.println(getName() + "의 일반공격 피해 " + damage +
                      " (공격력: " + getAttack() + ", 상대 방어력: " + target.getDefense() + ")");
          }
          return damage;
-     }
-     public int skillAttack(Monster target) {
-         int skillDamage;
-         if (mp > 20) {
-
          }
 
      }
